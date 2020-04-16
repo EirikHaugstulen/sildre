@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sildre</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 95%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100vh;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">Sildre.no</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Hjem <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Data</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Info</a>
+                </li>
+                <span class="navbar-text">Dette er en prototype for å vise hvordan webappen kan visualiseres. Det er ikke et produkt laget av Sildre.no, og er kun laget for en eksamensoppgave.</span>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div id="map"></div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+
+    let map;
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 62.060091, lng: 9.107032},
+            zoom: 10,
+            styles: [
+                {
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#f5f5f5"
+                        }
+                    ]
+                },
+                {
+                    "elementType": "labels.icon",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+                {
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#616161"
+                        }
+                    ]
+                },
+                {
+                    "elementType": "labels.text.stroke",
+                    "stylers": [
+                        {
+                            "color": "#f5f5f5"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.land_parcel",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#bdbdbd"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#eeeeee"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#757575"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#e5e5e5"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#9e9e9e"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#ffffff"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#757575"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#dadada"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#616161"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "road.local",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#9e9e9e"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit.line",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#e5e5e5"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "transit.station",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#eeeeee"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#c9c9c9"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry.fill",
+                    "stylers": [
+                        {
+                            "color": "#7496c1"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "labels.text.fill",
+                    "stylers": [
+                        {
+                            "color": "#9e9e9e"
+                        }
+                    ]
+                }
+            ],
+            mapTypeControl: false,
+            streetViewControl: false
+        });
+
+
+            addMarker({
+            coords: {lat: 62.060091, lng: 9.107032},
+            content: '<h6>Jora Målestasjon</h6>' +
+                '<p>Dette er en test for å se hvordan ting vil se ut</p>'
+        });
+        addMarker({
+            coords: {lat: 62.19, lng: 8.54},
+            content: '<h6>Lesjaverk Målestasjon</h6>' +
+                '<p>Dette er en test for å se hvordan ting vil se ut</p>'
+        });
+        addMarker({
+            coords: {lat: 61.8796875, lng: 9.4100231},
+            content: '<h6>Rosten Målestasjon</h6>' +
+                '<p>Dette er en test for å se hvordan ting vil se ut</p>' +
+                '<canvas id="rostenCanvas" style="max-width: 600px; max-height: 800px;"></canvas>'
+        });
+
+        function addMarker(props) {
+            let marker = new google.maps.Marker({
+                position: props.coords,
+                map: map,
+                animation: google.maps.Animation.DROP,
+            });
+            if (props.content) {
+                let infoWindow = new google.maps.InfoWindow({
+                    content: props.content
+                });
+
+            marker.addListener('click', function () {
+                infoWindow.open(map, marker);
+                setTimeout(openCan, 100)
+            })
+            }
+        }
+    }
+
+
+    function openCan() {
+        let ctx = document.getElementById('rostenCanvas').getContext('2d');
+        let rostenCanvas = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['13:05', '14:05', '15:05', '16:05', '17:05', '18:05', '19:05', '20:05', '21:05', '22:05'],
+                datasets: [{
+                    label: 'Kubikkmeter i sekundet',
+                    data: [12, 4, 8, 5, 7, 9, 10, 13, 14.5, 17],
+                    backgroundColor: [
+                        'rgba(255,99,132,0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(255,84,62)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2EdBz4qGQ19OnkrYNvPTXlYnkD5wjXo8&callback=initMap"
+        async defer></script>
+</body>
+</html>
+
+
