@@ -238,18 +238,23 @@
         addMarker({
             coords: {lat: 62.060091, lng: 9.107032},
             content: '<h6>Jora Målestasjon</h6>' +
-                '<p>Dette er en test for å se hvordan ting vil se ut</p>'
+                '<p>Dette er en test for å se hvordan ting vil se ut</p>'+
+                '<canvas id="joraCanvas" style="max-width: 600px; max-height: 800px;"></canvas>',
+            script: openJora
         });
         addMarker({
             coords: {lat: 62.19, lng: 8.54},
             content: '<h6>Lesjaverk Målestasjon</h6>' +
-                '<p>Dette er en test for å se hvordan ting vil se ut</p>'
+                '<p>Dette er en test for å se hvordan ting vil se ut</p>'+
+                '<canvas id="lvCanvas" style="max-width: 600px; max-height: 800px;"></canvas>',
+            script: openLV
         });
         addMarker({
             coords: {lat: 61.8796875, lng: 9.4100231},
             content: '<h6>Rosten Målestasjon</h6>' +
                 '<p>Dette er en test for å se hvordan ting vil se ut</p>' +
-                '<canvas id="rostenCanvas" style="max-width: 600px; max-height: 800px;"></canvas>'
+                '<canvas id="rostenCanvas" style="max-width: 600px; max-height: 800px;"></canvas>',
+            script: openRosten
         });
 
         function addMarker(props) {
@@ -266,7 +271,7 @@
 
                 marker.addListener('click', function () {
                     infoWindow.open(map, marker);
-                    setTimeout(openCan, 100)
+                    setTimeout(props.script, 100)
                 })
             }
         }
@@ -278,7 +283,7 @@
             }
 
 
-    function openCan() {
+    function openRosten() {
         let ctx = document.getElementById('rostenCanvas').getContext('2d');
         let rostenCanvas = new Chart(ctx, {
             type: 'line',
@@ -286,7 +291,7 @@
                 labels: ['13:05', '14:05', '15:05', '16:05', '17:05', '18:05', '19:05', '20:05', '21:05', '22:05'],
                 datasets: [{
                     label: 'Kubikkmeter i sekundet',
-                    data: [12, 4, 8, 5, 7, 9, 10, 13, 14.5, 17],
+                    data: [8, 5, 6, 5, 6, 12, 17, 13, 15, 4, 5],
                     backgroundColor: [
                         'rgba(255,99,132,0.2)'
                     ],
@@ -307,6 +312,66 @@
             }
         });
     }
+    function openJora() {
+        let ctx = document.getElementById('joraCanvas').getContext('2d');
+        let joraCanvas = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['13:05', '14:05', '15:05', '16:05', '17:05', '18:05', '19:05', '20:05', '21:05', '22:05'],
+                datasets: [{
+                    label: 'Kubikkmeter i sekundet',
+                    data: [6, 5, 6, 12, 17, 13, 15, 4, 5, 9, 4],
+                    backgroundColor: [
+                        'rgba(255,99,132,0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(255,84,62)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+    function openLV() {
+            let ctx = document.getElementById('lvCanvas').getContext('2d');
+            let lvCanvas = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['13:05', '14:05', '15:05', '16:05', '17:05', '18:05', '19:05', '20:05', '21:05', '22:05'],
+                    datasets: [{
+                        label: 'Kubikkmeter i sekundet',
+                        data: [4, 12, 17, 13, 15, 4, 5, 9, 4, 3, 3],
+                        backgroundColor: [
+                            'rgba(255,99,132,0.2)'
+                        ],
+                        borderColor: [
+                            'rgb(255,84,62)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+
+
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2EdBz4qGQ19OnkrYNvPTXlYnkD5wjXo8&callback=initMap"
